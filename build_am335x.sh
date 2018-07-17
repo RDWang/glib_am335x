@@ -14,10 +14,15 @@ mkdir $TARGET
 
 #编译zlib
 cd zlib
+git reset --hard
 ./configure --prefix=${ROOT_DIR}/${TARGET}
 
 #在make之前需要将刚刚生成的Makefile文件中的所有gcc、ar、ranlib替换成本地的交叉编译工具，
 #我使用的交叉编译工具前缀是arm-linux-gnueabihf-，将上面3个工具加前缀修改保存即可
+#修改为自动编辑
+sed -i 's/\<gcc\>/arm-linux-gnueabihf-gcc/g' Makefile
+sed -i 's/\<ar\>/arm-linux-gnueabihf-ar/g' Makefile
+sed -i 's/\<ranlib\>/arm-linux-gnueabihf-ranlib/g' Makefile
 make
 make install
 
